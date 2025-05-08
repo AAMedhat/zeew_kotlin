@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="green_500">#4CAF50</color>
+    <color name="green_700">#388E3C</color>
+    <color name="text_primary">#212121</color>
+    <color name="text_secondary">#757575</color>
+    <color name="background_color">#FFFFFF</color>
+    <color name="chip_background_color">#F5F5F5</color>
+    <color name="chip_background_selected">#4CAF50</color>
+    <color name="chip_text_color">#212121</color>
+    <color name="chip_text_color_selected">#FFFFFF</color>
+    <color name="menu_item_title">#212121</color>
+    <color name="menu_item_description">#757575</color>
+    <color name="menu_item_price">#212121</color>
+</resources>
