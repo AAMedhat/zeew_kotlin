@@ -36,6 +36,12 @@ import androidx.core.view.updatePadding
 import androidx.core.view.WindowInsetsCompat
 import android.widget.HorizontalScrollView
 
+/**
+ * MainActivity serves as the main screen of the Zeew restaurant app.
+ * It displays the restaurant's menu items, handles category navigation,
+ * manages the shopping cart, and provides a responsive UI that adapts
+ * to different screen sizes and orientations.
+ */
 class MainActivity : AppCompatActivity() {
     private lateinit var menuItemAdapter: MenuItemAdapter
     private lateinit var recyclerView: RecyclerView
@@ -46,6 +52,11 @@ class MainActivity : AppCompatActivity() {
     private val cartItems = mutableMapOf<MenuItem, Int>() // MenuItem to quantity map
     private var selectedCategoryView: View? = null
     
+    /**
+     * Initializes the activity, sets up the UI components and their behaviors.
+     * This includes setting up the window decorations, status bar, restaurant info,
+     * menu categories, RecyclerView for menu items, and the shopping cart.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupWindowAndStatusBar()
@@ -62,6 +73,10 @@ class MainActivity : AppCompatActivity() {
         setupStatusBarPadding()
     }
 
+    /**
+     * Sets up the restaurant information section including the header image,
+     * logo, name, description, rating, delivery fee, and delivery time.
+     */
     private fun setupRestaurantInfo() {
         // Set restaurant header image
         val headerImage = findViewById<ImageView>(R.id.headerImage)
@@ -84,6 +99,10 @@ class MainActivity : AppCompatActivity() {
         deliveryTime.text = RestaurantData.restaurantInfo["deliveryTime"] as String
     }
 
+    /**
+     * Configures the scroll behavior for the NestedScrollView and categories container.
+     * Adds elevation to the categories container when the user scrolls down.
+     */
     private fun setupScrollBehavior() {
         val scrollView = findViewById<NestedScrollView>(R.id.nestedScrollView)
         categoriesContainer = findViewById(R.id.categoriesContainer)
@@ -95,6 +114,10 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Sets up the category chips that allow users to filter menu items by category.
+     * Each category chip includes a bottom line indicator that shows when selected.
+     */
     private fun setupCategories() {
         chipGroup = findViewById(R.id.categoryChipGroup)
         chipGroup.removeAllViews()
@@ -135,6 +158,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Updates the selected category and scrolls the menu items to show items
+     * from the selected category. Also handles the visual feedback of selection.
+     * 
+     * @param selectedChip The chip that was selected by the user
+     * @param category The category name that was selected
+     */
     private fun updateCategorySelection(selectedChip: Chip, category: String) {
         // Hide previous indicator
         selectedCategoryView?.visibility = View.INVISIBLE
@@ -176,10 +206,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Utility function to convert density-independent pixels (dp) to pixels (px).
+     * 
+     * @return The pixel value corresponding to the dp input
+     */
     private fun Int.dpToPx(): Int {
         return (this * resources.displayMetrics.density).toInt()
     }
 
+    /**
+     * Sets up the RecyclerView that displays menu items. Handles both list and
+     * grid layouts depending on the device type and orientation. Also sets up
+     * scroll listeners to update category selection based on visible items.
+     */
     private fun setupRecyclerView() {
         recyclerView = findViewById(R.id.menuItemsRecyclerView)
         
@@ -214,6 +254,12 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    /**
+     * Updates the selected category chip based on the currently visible menu items
+     * while scrolling through the RecyclerView.
+     * 
+     * @param category The category name to select
+     */
     private fun updateSelectedChip(category: String) {
         for (i in 0 until chipGroup.childCount) {
             val chip = chipGroup.getChildAt(i) as? Chip
@@ -227,6 +273,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Sets up the view cart button that shows the current number of items
+     * and total price. Also handles the click event to show cart contents.
+     */
     private fun setupViewCartButton() {
         viewCartButton = findViewById(R.id.viewCartButton)
         updateCartButton()
@@ -239,12 +289,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Adds a menu item to the shopping cart and updates the cart button.
+     * Shows a Snackbar notification when an item is added.
+     * 
+     * @param menuItem The menu item to add to the cart
+     */
     private fun addItemToCart(menuItem: MenuItem) {
         cartItems[menuItem] = (cartItems[menuItem] ?: 0) + 1
         updateCartButton()
         Snackbar.make(findViewById(android.R.id.content), "${menuItem.name} added to cart", Snackbar.LENGTH_SHORT).show()
     }
 
+    /**
+     * Updates the view cart button text and state based on the current
+     * contents of the shopping cart.
+     */
     private fun updateCartButton() {
         val itemCount = cartItems.values.sum()
         val totalPrice = cartItems.entries.sumOf { (item, quantity) -> item.price * quantity }
@@ -258,15 +318,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Determines if the current device is a tablet based on screen width.
+     * 
+     * @return true if the device is a tablet, false otherwise
+     */
     private fun isTablet(): Boolean {
         return resources.configuration.screenWidthDp >= 600
     }
 
+    /**
+     * Handles configuration changes (e.g., orientation changes) by
+     * reinitializing the RecyclerView with appropriate layout.
+     */
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         setupRecyclerView()
     }
 
+    /**
+     * Interpolates between two colors based on a fraction value.
+     * Used for smooth color transitions in the app bar.
+     * 
+     * @param startColor The starting color
+     * @param endColor The ending color
+     * @param fraction The interpolation fraction (0.0 to 1.0)
+     * @return The interpolated color
+     */
     private fun interpolateColor(startColor: Int, endColor: Int, fraction: Float): Int {
         val startA = Color.alpha(startColor)
         val startR = Color.red(startColor)
@@ -286,6 +364,9 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
+    /**
+     * Sets up the window and status bar to be transparent and edge-to-edge.
+     */
     private fun setupWindowAndStatusBar() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -295,6 +376,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Configures the status bar padding to ensure proper layout with
+     * edge-to-edge content.
+     */
     private fun setupStatusBarPadding() {
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         ViewCompat.setOnApplyWindowInsetsListener(toolbar) { view, windowInsets ->
@@ -304,6 +389,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Sets up the app bar transition effects when scrolling, including
+     * color changes for the toolbar, status bar, and buttons.
+     */
     private fun setupAppBarTransition() {
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         val toolbarTitle = findViewById<TextView>(R.id.toolbarTitle)

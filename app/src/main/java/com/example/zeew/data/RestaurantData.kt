@@ -4,7 +4,16 @@ import com.example.zeew.model.Category
 import com.example.zeew.model.MenuItem
 import com.example.zeew.R
 
+/**
+ * Singleton object that holds all the static data for the restaurant app.
+ * This includes menu categories, menu items, and general restaurant information.
+ * In a production environment, this data would typically come from a backend server.
+ */
 object RestaurantData {
+    /**
+     * List of all menu categories available in the restaurant.
+     * Categories are used to organize menu items and provide navigation structure.
+     */
     val categories = listOf(
         Category(1, "Trending 🔥", description = "Most popular dishes"),
         Category(2, "Free Soup with Celebration", description = "Special offers"),
@@ -14,6 +23,11 @@ object RestaurantData {
         Category(6, "Beverages", description = "Drinks and refreshments")
     )
 
+    /**
+     * Complete list of menu items available in the restaurant.
+     * Each item contains detailed information including name, description,
+     * price, category, and whether it's spicy.
+     */
     val menuItems = listOf(
         // Trending Items
         MenuItem(
@@ -119,6 +133,20 @@ object RestaurantData {
         )
     )
 
+    /**
+     * General information about the restaurant including name, description,
+     * ratings, delivery details, and image resources.
+     *
+     * Keys in the map:
+     * - name: Restaurant name
+     * - description: Short description of cuisine types
+     * - rating: Average customer rating (out of 5)
+     * - totalRatings: Total number of customer ratings
+     * - deliveryFee: Delivery fee in AED
+     * - deliveryTime: Estimated delivery time
+     * - logoResId: Resource ID for restaurant logo
+     * - headerResId: Resource ID for header image
+     */
     val restaurantInfo = mapOf(
         "name" to "Mandarin Oak",
         "description" to "Chinese, Thai, Asian, Noodles, Dumplings",
